@@ -9,23 +9,23 @@ const TIMEOUT = 1000;
 
 function checkPath() {
   if (!util.checkPathExistance(path.ediusOutputFolder)) {
-    throw new Error('Invalid EDIUS Output Folder');
+    throw new Error(`Invalid EDIUS Output Folder: ${path.ediusOutputFolder}`);
   }
 
   if (!util.checkPathExistance(path.procoderInputFolderSD)) {
-    throw new Error('Invalid ProCoder Input Folder (SD)');
+    throw new Error(`Invalid ProCoder Input Folder (SD): ${path.procoderInputFolderSD}`);
   }
 
   if (!util.checkPathExistance(path.procoderInputFolderHD)) {
-    throw new Error('Invalid ProCoder Input Folder (HD)');
+    throw new Error(`Invalid ProCoder Input Folder (HD): ${path.procoderInputFolderHD}`);
   }
 
   if (!util.checkPathExistance(path.procoderLogsFolder)) {
-    throw new Error('Invalid ProCoder Logs Folder');
+    throw new Error(`Invalid ProCoder Logs Folder: ${path.procoderLogsFolder}`);
   }
 
   if (!util.checkPathExistance(path.publishInputFolder)) {
-    throw new Error('Invalid Publish Input Folder');
+    throw new Error(`Invalid Publish Input Folder: ${path.publishInputFolder}`);
   }
   debug('All paths are valid');
 }
