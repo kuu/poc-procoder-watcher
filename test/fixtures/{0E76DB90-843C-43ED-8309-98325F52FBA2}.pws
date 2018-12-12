@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cnpsXML
+  VERSION.DWD="3"
+  TypeName="TRANSCODINGJOB"
+  JOBGUID="{0E76DB90-843C-43ED-8309-98325F52FBA2}"
+  STATUS.DWD="512"
+  PROGRESS.DWD="100"
+  SPEED.DBL="0.000000"
+  JOBCHECKINTIME.BIN="cKHWnkXW0wE="
+  JOBSTARTTIME.BIN="AI/94LPW0wE="
+  JOBCOMPLETIONTIME.BIN="UHGuy7jW0wE="
+  MASTERGUID="{00000000-0000-0000-0000-000000000000}">
+  <JobSubmitInfo 
+    Name="Job (04/17/18 21:14:22)" 
+    Description="Source D:\カートゥーン書き出し\地上波(Gyao_mp4)\cn_gumball_021B.avi" 
+    User="WatchFolder" 
+    Priority.DWD="5" 
+    Capabilities.DWD="0"/>
+  <JobPostProcInfo DeleteProcessedSource.DWD="0" DeleteRealAsset.DWD="0"/>
+  <Failures><Warnings/><Errors/></Failures>
+  <WorkerData>
+    <WatchJob
+      WatchGUID="{6821D9A0-8D83-46E7-9235-B5648D9AFFB1}"
+      WatchOrgSource="D:\カートゥーン書き出し\地上波(Gyao_mp4)\cn_gumball_021B.avi"
+      AppendSubFolder.DWD="0"
+      WatchPrefetchSource.DWD="0"
+      AcceptsFolders.DWD="0"
+      OverWrite.DWD="0"
+      WatchPath="D:\カートゥーン書き出し\地上波(Gyao_mp4)"
+      Name="D:\カートゥーン書き出し\地上波(Gyao_mp4)">
+      <Destinations>
+        <Module_0 
+          ModuleGUID="{54641728-177C-4F4B-82D7-C803775AE9F9}" 
+          CML_P_Path="D:\COV\turner">
+          <ModuleData 
+            CML_P_Path="D:\COV\turner" 
+            CreatorMachine="SHIMIZU" 
+            CreatorUser="platease" 
+            FullUNCPath="\\SHIMIZU\D$\COV\turner"/>
+        </Module_0>
+      </Destinations>
+    </WatchJob>
+    <ProjectSettings 
+      MultiTargetSplitting.DWD="1" 
+      KernelGUID="{78514490-2C28-4B57-93DF-D6DB12BB2F49}" 
+      MergerGUID="{00000000-0000-0000-0000-000000000000}" 
+      RenderMacroGrid.DWD="0" 
+      TargetOverWrite.DWD="0">
+      <KernelFlags
+        KP_LetterBoxParam.DWD="0"
+        KP_FrameRateMode.DWD="2"
+        KP_SpecialMPEGScaling.DWD="1"
+        KP_SpecialDeinterlacing.DWD="1"
+        KP_SpecialD1toDVScaling.DWD="1"
+        KP_RGB2YUV601.DWD="1"
+        KP_YUV2RGB601.DWD="1"
+        KP_AdjustDurationLimit.DWD="5"
+        KP_AdjustDurationEnabled.DWD="1"
+        KP_RestrictQuality.DWD="0"
+        KP_AnamorphicScalingLimit.DWD="50"
+        KP_AnamorphicScalingLimitEnabled.DWD="1"
+        KP_SpecialVBIScaling.DWD="1"
+        KP_DefaultSTLanguage.DWD="28261"
+        KP_DefaultAudioLanguage.DWD="0"
+        KP_ForceInternalMPEGDecoder.DWD="1"
+        KP_SetChapterAtStitch.DWD="0"
+        KP_UseDropFrame.DWD="1"
+        KP_UseMPEGTimeStamp.DWD="0"
+        KP_MaxMediaCut.DWD="5"
+        KP_UseLegacyMPEG.DWD="0"
+        KP_UseLegacyQT.DWD="0"
+        KP_UseNTSCSafeLetterBox.DWD="0"/>
+    </ProjectSettings>
+    <Sources Duration.QWD="20980159201">
+      <Module_0 
+        Filename="D:\カートゥーン書き出し\地上波(Gyao_mp4)\cn_gumball_021B.avi" 
+        CreatorMachine="SHIMIZU" 
+        CreatorUser="platease" 
+        FullUNCFilename="\\SHIMIZU\D$\カートゥーン書き出し\地上波(Gyao_mp4)\cn_gumball_021B.avi"/>
+      <SourceFiles File_0="D:\カートゥーン書き出し\地上波(Gyao_mp4)\cn_gumball_021B.avi"/>
+    </Sources>
+    <Statistics AverageSpeed.DBL="0.591724"/>
+    <Destinations>
+      <Module_0>
+        <TargetFiles 
+          File_0="D:\COV\turner\cn_gumball_021B.mp4" 
+          FileSize_0.QWD="596487805" 
+          SubmittedTargetNr.DWD="0"/>
+      </Module_0>
+    </Destinations>
+  </WorkerData>
+  <SLAVEJOBS/>
+</cnpsXML>

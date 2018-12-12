@@ -1,0 +1,52 @@
+{
+  "name": "poc-procoder-watcher",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "xo",
+    "test": "npm run lint && ava --verbose",
+    "dev": "node ./index.js",
+    "start": "forever start --spinSleepTime 10000 -o server.log -e error.log ./index.js",
+    "stop": "forever stop ./index.js"
+  },
+  "author": "Kuu Miyazaki",
+  "license": "MIT",
+  "dependencies": {
+    "config": "^2.0.1",
+    "debug": "^4.1.0",
+    "forever": "^0.15.3",
+    "node-fetch": "^2.2.1",
+    "xml-js": "^1.6.8"
+  },
+  "devDependencies": {
+    "ava": "^0.25.0",
+    "proxyquire": "^2.1.0",
+    "rewire": "^4.0.1",
+    "sinon": "^7.2.0",
+    "xo": "^0.23.0"
+  },
+  "xo": {
+    "esnext": true,
+    "space": true,
+    "plugins": [
+      "ava"
+    ],
+    "rules": {
+      "ava/prefer-async-await": 0,
+      "ava/use-t": 0,
+      "capitalized-comments": 0,
+      "dot-notation": 0,
+      "import/newline-after-import": 0,
+      "new-cap": 0,
+      "no-await-in-loop": 0,
+      "no-cond-assign": 0,
+      "no-mixed-operators": 0,
+      "no-multi-assign": 0,
+      "no-template-curly-in-string": 0,
+      "import/no-dynamic-require": 0,
+      "unicorn/filename-case": 0,
+      "unicorn/catch-error-name": 0
+    }
+  }
+}
