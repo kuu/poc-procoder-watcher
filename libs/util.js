@@ -78,7 +78,7 @@ function makeRequest(uri, method = 'GET', data) {
   })
     .then(res => {
       if (res.status >= 400) {
-        throw new Error(`${res.status} ${res.statusText} util.makeRequest: [${method}] ${uri}`);
+        return debug(`${res.status} ${res.statusText} [${method}] ${uri}`);
       }
       return res.json();
     })
