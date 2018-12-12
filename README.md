@@ -4,7 +4,7 @@
 
 ```
 $ git clone https://github.com/kuu/poc-procoder-watcher.git
-$ cd procoder-watcher
+$ cd poc-procoder-watcher
 $ npm install
 ```
 
@@ -15,9 +15,21 @@ $ mkdir config
 $ vi config/default.json
 {
   "path": {
-    "ediusOutputFolder": "/path/to/EDIUS Output Folder",
-    "procoderLogsFolder": "/path/to/ProCoder Logs Folder",
-    "publishInputFolder": "/path/to/Publish Input Folder"
+    "ediusOutputFolder": "Path to Edius output folder",
+    "procoderInputFolder": "Path to ProCoder input folder",
+    "procoderLogsFolder": "Path to Procoder log output folder",
+    "publishInputFolder": "Path to Publish input folder"
+  },
+  "auth": {
+    "user": "Flex user",
+    "pass": "Passwrod for the user"
+  },
+  "api": {
+    "baseUri": "Flex base path e.g. https://xxx.com/api",
+    "workspace": {Workspace id in integer},
+    "metadataDefinition": {Metadata Definition id in integer},
+    "importWorkflow": {Import workflow id in integer},
+    "publishWorkflow": {Publish workflow id in integer}
   }
 }
 ```
