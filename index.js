@@ -112,9 +112,14 @@ function checkPublishInput() {
 }
 
 function callback() {
-  checkFiles().then(() => {
-    setTimeout(callback, TIMEOUT);
-  });
+  return checkFiles()
+    .then(() => {
+      setTimeout(callback, TIMEOUT);
+    })
+    .catch(err => {
+      console.error(err.stack);
+      setTimeout(callback, TIMEOUT);
+    });
 }
 
 checkPath();
