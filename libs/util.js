@@ -77,7 +77,7 @@ function makeRequest(uri, method = 'GET', data) {
     }
   })
     .then(res => {
-      if (res.status > 400) {
+      if (res.status >= 400) {
         return debug(`${res.status} ${res.statusText}`);
       }
       return res.json();
