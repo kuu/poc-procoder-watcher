@@ -76,7 +76,12 @@ function makeRequest(uri, method = 'GET', data) {
       Authorization: `Basic ${hash}`
     }
   })
-    .then(res => res.json())
+    .then(res => {
+      if (res.status > 400) {
+        return debug(`${res.status} ${res.statusText}`);
+      }
+      return res.json();
+    })
     .catch(err => {
       console.error(err.stack);
       return null;
