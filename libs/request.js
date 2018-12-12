@@ -93,7 +93,7 @@ function launchImportWorkflow(title, job) {
 }
 
 function launchPublishWorkflow(title) {
-  return launchWorkflow(publishWorkflow, title)
+  return launchWorkflow(publishWorkflow, title, {resourceItemName: `${title}.m2t`})
     .then(() => {
       assetIdCache.delete(title);
     });
