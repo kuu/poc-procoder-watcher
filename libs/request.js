@@ -1,3 +1,5 @@
+const debug = require('debug')('procoder-watcher');
+
 const {makeRequest, getConfig, waitFor} = require('./util');
 
 const {
@@ -71,7 +73,8 @@ function launchWorkflow(definitionId, title, variables = {}) {
 function checkIfWorkflowCompleted(instanceId) {
   return makeRequest(`${baseUri}/workflows/${instanceId}`)
     .then(({status}) => {
-      return status === 'Completed';
+      debug(`Workflow (id=${instanceId}): ${status}`);
+      return status === 'Completed' || status === 'Failed';
     });
 }
 
