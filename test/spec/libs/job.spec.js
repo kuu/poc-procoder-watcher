@@ -51,6 +51,6 @@ test('job:parse:completed', t => {
   t.is(job.status, 'completed');
   t.is(job.error, null);
   t.is(job.progress, 100);
-  t.is(job.destination, 'cn_gumball_021B.mp4');
+  t.is(job.destination, 'D:\\COV\\turner\\cn_gumball_021B.mp4');
   t.is(job.fileSize, 596487805);
 });

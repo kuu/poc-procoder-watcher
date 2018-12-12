@@ -146,7 +146,7 @@ test('log:parse', t => {
   t.is(list[2].queuedTime.getTime(), 0);
   t.is(list[2].error, null);
   t.is(list[2].progress, 100);
-  t.is(list[2].destination, 'xxx.mp4');
+  t.is(list[2].destination, '/path/to/xxx.mp4');
   t.is(list[2].endTime.getTime(), 1000);
   t.is(list[2].fileSize, 1000);
 
@@ -164,7 +164,7 @@ test('log:parse', t => {
   t.is(list[1].queuedTime.getTime(), 1000);
   t.is(list[1].error, null);
   t.is(list[1].progress, 100);
-  t.is(list[1].destination, 'yyy.mp4');
+  t.is(list[1].destination, '/path/to/yyy.mp4');
   t.is(list[1].endTime.getTime(), 2000);
   t.is(list[1].fileSize, 2000);
   t.is(list[2].status, 'completed');
@@ -172,7 +172,7 @@ test('log:parse', t => {
   t.is(list[2].queuedTime.getTime(), 0);
   t.is(list[2].error, null);
   t.is(list[2].progress, 100);
-  t.is(list[2].destination, 'xxx.mp4');
+  t.is(list[2].destination, '/path/to/xxx.mp4');
   t.is(list[2].endTime.getTime(), 1000);
   t.is(list[2].fileSize, 1000);
 
@@ -189,7 +189,7 @@ test('log:parse', t => {
   t.is(list[1].queuedTime.getTime(), 1000);
   t.is(list[1].error, null);
   t.is(list[1].progress, 100);
-  t.is(list[1].destination, 'yyy.mp4');
+  t.is(list[1].destination, '/path/to/yyy.mp4');
   t.is(list[1].endTime.getTime(), 2000);
   t.is(list[1].fileSize, 2000);
   t.is(list[2].status, 'completed');
@@ -197,7 +197,7 @@ test('log:parse', t => {
   t.is(list[2].queuedTime.getTime(), 0);
   t.is(list[2].error, null);
   t.is(list[2].progress, 100);
-  t.is(list[2].destination, 'xxx.mp4');
+  t.is(list[2].destination, '/path/to/xxx.mp4');
   t.is(list[2].endTime.getTime(), 1000);
   t.is(list[2].fileSize, 1000);
 });

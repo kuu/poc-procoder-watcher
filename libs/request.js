@@ -80,7 +80,11 @@ function checkIfWorkflowCompleted(instanceId) {
 
 function launchImportWorkflow(title, job) {
   const state = job.status === 'completed' ? 'transcoded' : 'transcoding-failed';
-  return launchWorkflow(importWorkflow, title, {state})
+  const variables = {state};
+  if (state === 'completed') {
+    variables.reviewFilePath = job.destination;
+  }
+  return launchWorkflow(importWorkflow, title, variables)
     .then(() => {
       if (state === 'transcoding-failed') {
         assetIdCache.delete(title);

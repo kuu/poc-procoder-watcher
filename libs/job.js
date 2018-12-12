@@ -52,7 +52,7 @@ function parseJob(id, data) {
   }
 
   res.status = 'completed';
-  res.destination = getFileName(cnpsXML.WorkerData.Destinations.Module_0.TargetFiles._attributes.File_0, SEP);
+  res.destination = cnpsXML.WorkerData.Destinations.Module_0.TargetFiles._attributes.File_0;
   res.fileSize = parseInt(cnpsXML.WorkerData.Destinations.Module_0.TargetFiles._attributes['FileSize_0.QWD'], 10);
   return res;
 }
