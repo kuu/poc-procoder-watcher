@@ -81,7 +81,7 @@ function checkIfWorkflowCompleted(instanceId) {
 function launchImportWorkflow(title, job) {
   const state = job.status === 'completed' ? 'transcoded' : 'transcoding-failed';
   const variables = {state};
-  if (state === 'completed') {
+  if (state === 'transcoded') {
     variables.reviewFilePath = job.destination;
   }
   return launchWorkflow(importWorkflow, title, variables)
