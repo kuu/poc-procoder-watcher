@@ -12,8 +12,12 @@ function checkPath() {
     throw new Error('Invalid EDIUS Output Folder');
   }
 
-  if (!util.checkPathExistance(path.procoderInputFolder)) {
-    throw new Error('Invalid ProCoder Input Folder');
+  if (!util.checkPathExistance(path.procoderInputFolderSD)) {
+    throw new Error('Invalid ProCoder Input Folder (SD)');
+  }
+
+  if (!util.checkPathExistance(path.procoderInputFolderHD)) {
+    throw new Error('Invalid ProCoder Input Folder (HD)');
   }
 
   if (!util.checkPathExistance(path.procoderLogsFolder)) {
@@ -47,9 +51,15 @@ function checkEdiusOutput() {
     }
     promises.push(
       request.getMetadata(title).then(({resolution}) => {
+        let destination;
+        if (resolution === 'HD') {
+          destination = path.procoderInputFolderHD;
+        } else {
+          destination = path.procoderInputFolderSD;
+        }
         util.moveFile(
           `${path.ediusOutputFolder}/${file}`,
-          `${path.procoderInputFolder}/${resolution}/${title}.avi`
+          `${destination}/${title}.avi`
         );
         debug(`Moved ${title}.avi to Procoder's ${resolution} folder`);
         return resolution;

@@ -4,7 +4,8 @@ const test = require('ava');
 const mockConfig = {
   path: {
     ediusOutputFolder: '/path/to/ediusOutputFolder',
-    procoderInputFolder: '/path/to/procoderInputFolder',
+    procoderInputFolderSD: '/path/to/procoderInputFolderSD',
+    procoderInputFolderHD: '/path/to/procoderInputFolderHD',
     procoderLogsFolder: '/path/to/procoderLogsFolder',
     publishInputFolder: '/path/to/publishInputFolder'
   },
