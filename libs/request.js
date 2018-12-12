@@ -17,11 +17,11 @@ function getAssetId(title) {
     return Promise.resolve(assetIdCache.get(title));
   }
   return makeRequest(`${baseUri}/assets;workspaceId=${workspace};metadataDefinitionId=${metadataDefinition};searchText="${title}"`)
-    .then(({assets}) => {
-      if (!assets) {
+    .then(res => {
+      if (!res || !res.assets) {
         throw new Error(`No asset (${title}) found`);
       }
-      const {id} = assets.find(asset => asset.name === title);
+      const {id} = res.assets.find(asset => asset.name === title);
       assetIdCache.set(title, id);
       return id;
     });
