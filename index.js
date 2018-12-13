@@ -88,7 +88,7 @@ function checkProcoderLogs() {
   for (const job of updateList) {
     const title = job.source.slice(0, -4);
     if (job.status === 'completed' || job.status === 'failed') {
-      if (!deleteProcoderInputFile()) {
+      if (!deleteProcoderInputFile(title)) {
         continue;
       }
       debug(`Job ${job.status}: ${title}`);
