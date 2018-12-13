@@ -74,10 +74,12 @@ function checkEdiusOutput() {
 
 function deleteProcoderInputFile(title) {
   const path = procoderInputFilesToDelete[title];
-  if (path) {
-    util.deleteFile(path);
-    delete procoderInputFilesToDelete[title];
+  if (!path) {
+    return false;
   }
+  util.deleteFile(path);
+  delete procoderInputFilesToDelete[title];
+  return true;
 }
 
 function checkProcoderLogs() {
@@ -86,7 +88,9 @@ function checkProcoderLogs() {
   for (const job of updateList) {
     const title = job.source.slice(0, -4);
     if (job.status === 'completed' || job.status === 'failed') {
-      deleteProcoderInputFile();
+      if (!deleteProcoderInputFile()) {
+        continue;
+      }
       debug(`Job ${job.status}: ${title}`);
       promises.push(
         request.launchImportWorkflow(title, job)
