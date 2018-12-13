@@ -62,6 +62,11 @@ function moveFile(oldPath, newPath) {
   fs.renameSync(oldPath, newPath);
 }
 
+function deleteFile(path) {
+  debug(`util.deleteFile: ${path}`);
+  fs.unlinkSync(path);
+}
+
 function getConfig() {
   return config;
 }
@@ -102,6 +107,7 @@ module.exports = {
   getFileName,
   getFileBaseName,
   moveFile,
+  deleteFile,
   getConfig,
   SEP: path.sep,
   makeRequest,

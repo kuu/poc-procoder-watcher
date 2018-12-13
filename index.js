@@ -38,6 +38,8 @@ function checkFiles() {
   ]);
 }
 
+const procoderInputFilesToDelete = {};
+
 function checkEdiusOutput() {
   const fileList = util.getFileList(path.ediusOutputFolder, 'avi');
   if (fileList.length === 0) {
@@ -62,11 +64,20 @@ function checkEdiusOutput() {
           `${destination}/${title}.avi`
         );
         debug(`Moved ${title}.avi to Procoder's ${resolution} folder`);
+        procoderInputFilesToDelete[title] = `${destination}/${title}.avi`;
         return resolution;
       })
     );
   }
   return Promise.all(promises);
+}
+
+function deleteProcoderInputFile(title) {
+  const path = procoderInputFilesToDelete[title];
+  if (path) {
+    util.deleteFile(path);
+    delete procoderInputFilesToDelete[title];
+  }
 }
 
 function checkProcoderLogs() {
@@ -75,6 +86,7 @@ function checkProcoderLogs() {
   for (const job of updateList) {
     const title = job.source.slice(0, -4);
     if (job.status === 'completed' || job.status === 'failed') {
+      deleteProcoderInputFile();
       debug(`Job ${job.status}: ${title}`);
       promises.push(
         request.launchImportWorkflow(title, job)

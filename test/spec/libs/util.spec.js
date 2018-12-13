@@ -23,8 +23,12 @@ const mockConfig = {
 };
 
 const mockFs = {
+  unlinkList: [],
   existsSync: path => {
     if (path === '/fake/path') {
+      return false;
+    }
+    if (mockFs.unlinkList.includes(path)) {
       return false;
     }
     return true;
@@ -48,6 +52,9 @@ const mockFs = {
   },
   renameSync: () => {
     // NOP
+  },
+  unlinkSync: path => {
+    mockFs.unlinkList.push(path);
   }
 };
 
@@ -116,6 +123,13 @@ test('util:moveFile', t => {
   util.moveFile(oldPath, newPath);
   t.is(util.checkPathExistance(oldPath), false);
   t.is(util.checkPathExistance(newPath), true);
+});
+
+test('util:deleteFile', t => {
+  const path = '/file/to/delete';
+  t.is(util.checkPathExistance(path), true);
+  util.deleteFile(path);
+  t.is(util.checkPathExistance(path), false);
 });
 
 test('util:getConfig', t => {
