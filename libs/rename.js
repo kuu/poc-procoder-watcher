@@ -8,7 +8,11 @@ function renameFiles(title) {
     .then(({filename, destination}) => {
       const deliveryFolderName = filename;
       for (const item of destination) {
-        const dirPath = `${publishOutputFolder}/${item.name}/${deliveryFolderName}/`;
+        const platformName = item.name;
+        if (platformName.indexOf(':') !== -1) {
+          platformName.replace('/:/g', '-');
+        }
+        const dirPath = `${publishOutputFolder}/${platformName}/${deliveryFolderName}/`;
         if (!util.checkPathExistance(dirPath)) {
           util.mkdir(dirPath);
         }
