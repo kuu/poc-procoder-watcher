@@ -126,15 +126,22 @@ function checkProcoderLogs() {
   return Promise.all(promises);
 }
 
+let publishPendingList = [];
+
 function checkPublishInput() {
   const fileList = util.getFileList(path.publishInputFolder, 'm2t');
   if (fileList.length === 0) {
     return Promise.resolve([]);
   }
   const promises = [];
+  const newPendingList = [];
   for (const file of fileList) {
     const title = util.getFileBaseName(file, util.SEP);
     if (!title) {
+      continue;
+    }
+    newPendingList.push(title);
+    if (publishPendingList[title]) {
       continue;
     }
     debug(`Launcing the publish-workflow: ${title}`);
@@ -142,6 +149,7 @@ function checkPublishInput() {
       request.launchPublishWorkflow(title)
     );
   }
+  publishPendingList = newPendingList;
   return Promise.all(promises);
 }
 
