@@ -43,6 +43,7 @@ function checkFiles() {
 }
 
 const procoderInputFilesToDelete = {};
+const pendingFiles = [];
 
 function checkEdiusOutput() {
   const fileList = util.getFileList(path.ediusOutputFolder, 'avi');
@@ -81,9 +82,18 @@ function deleteProcoderInputFile(title) {
   if (!path) {
     return false;
   }
-  util.deleteFile(path);
+  pendingFiles.push(path);
   delete procoderInputFilesToDelete[title];
   return true;
+}
+
+function deletePendingFiles() {
+  const path = pendingFiles.shift();
+  try {
+    util.deleteFile(path);
+  } catch (_) {
+    pendingFiles.push(path);
+  }
 }
 
 function checkProcoderLogs() {
@@ -109,6 +119,7 @@ function checkProcoderLogs() {
       );
     }
   }
+  deletePendingFiles();
   return Promise.all(promises);
 }
 
