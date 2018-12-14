@@ -88,12 +88,15 @@ function deleteProcoderInputFile(title) {
 }
 
 function deletePendingFiles() {
-  const path = pendingFiles.shift();
-  try {
-    util.deleteFile(path);
-  } catch (_) {
-    pendingFiles.push(path);
+  const unableToDelete = [];
+  for (const path of pendingFiles) {
+    try {
+      util.deleteFile(path);
+    } catch (_) {
+      unableToDelete.push(path);
+    }
   }
+  pendingFiles = unableToDelete;ß
 }
 
 function checkProcoderLogs() {
