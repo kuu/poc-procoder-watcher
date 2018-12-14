@@ -1,7 +1,12 @@
 const util = require('./util');
 const request = require('./request');
 
-const {sourceCopyFolder, publishInputFolder, publishOutputFolder} = util.getConfig().path;
+const {
+  sourceCopyFolder,
+  publishInputFolder,
+  publishOutputFolder,
+  flexImportFolder
+} = util.getConfig().path;
 
 function renameFiles(title) {
   return request.getMetadata(title)
@@ -22,8 +27,9 @@ function renameFiles(title) {
           // Move MXF files
           util.moveFile(`${sourceCopyFolder}/${outputFilename}`, dest);
         } else {
-          util.moveFile(`${publishInputFolder}/${title}.m2t`, dest);
+          util.copyFile(`${publishInputFolder}/${title}.m2t`, dest);
         }
+        util.moveFile(`${publishInputFolder}/${title}.m2t`, `${flexImportFolder}/${title}.m2t`);
       }
     })
     .then(() => request.updateMetadata({state: 'published'}));
