@@ -77,6 +77,10 @@ function findFile(file, dir) {
   return find.fileSync(file, dir);
 }
 
+function mkdir(path) {
+  fs.mkdirSync(path, {recursive: true});
+}
+
 function getConfig() {
   return config;
 }
@@ -119,6 +123,7 @@ module.exports = {
   copyFile,
   moveFile,
   findFile,
+  mkdir,
   deleteFile,
   getConfig,
   SEP: path.sep,

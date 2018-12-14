@@ -3,6 +3,7 @@ const debug = require('debug')('procoder-watcher');
 const {iterate} = require('./libs/log');
 const request = require('./libs/request');
 const util = require('./libs/util');
+const {renameFiles} = require('./libs/rename');
 
 const {path} = util.getConfig();
 const TIMEOUT = 1000;
@@ -147,6 +148,7 @@ function checkPublishInput() {
     debug(`Launcing the publish-workflow: ${title}`);
     promises.push(
       request.launchPublishWorkflow(title)
+        .then(() => renameFiles(title))
     );
   }
   publishPendingList = newPendingList;
