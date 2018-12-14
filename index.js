@@ -32,6 +32,11 @@ function checkPath() {
   if (!util.checkPathExistance(path.sourceCopyFolder)) {
     throw new Error(`Invalid Source Copy Folder: ${path.sourceCopyFolder}`);
   }
+
+  if (!util.checkPathExistance(path.flexImportFolder)) {
+    throw new Error(`Invalid Flex Import Folder: ${path.flexImportFolder}`);
+  }
+
   debug('All paths are valid');
 }
 

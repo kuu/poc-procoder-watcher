@@ -22,7 +22,7 @@ function renameFiles(title) {
           // Move MXF files
           util.moveFile(`${sourceCopyFolder}/${outputFilename}`, dest);
         } else {
-          util.copyFile(`${publishInputFolder}/${title}.m2t`, dest);
+          util.moveFile(`${publishInputFolder}/${title}.m2t`, dest);
         }
       }
     })
