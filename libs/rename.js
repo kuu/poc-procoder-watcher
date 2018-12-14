@@ -21,7 +21,8 @@ function renameFiles(title) {
           util.copyFile(`${publishInputFolder}/${title}.m2t`, dest);
         }
       }
-    });
+    })
+    .then(() => request.updateMetadata({state: 'published'}));
 }
 
 module.exports = {

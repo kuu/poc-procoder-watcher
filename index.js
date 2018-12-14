@@ -147,8 +147,8 @@ function checkPublishInput() {
     }
     debug(`Launcing the publish-workflow: ${title}`);
     promises.push(
-      request.launchPublishWorkflow(title)
-        .then(() => renameFiles(title))
+      renameFiles(title)
+        .then(() => request.launchPublishWorkflow(title))
     );
   }
   publishPendingList = newPendingList;
