@@ -134,7 +134,7 @@ function checkProcoderLogs() {
 
 let publishPendingList = [];
 
-function checkPublishInput() {
+async function checkPublishInput() {
   const fileList = util.getFileList(path.publishInputFolder, 'm2t');
   if (fileList.length === 0) {
     return Promise.resolve([]);
@@ -151,6 +151,7 @@ function checkPublishInput() {
       continue;
     }
     debug(`Launcing the publish-workflow: ${title}`);
+    await util.waitFor(500);
     promises.push(
       renameFiles(title)
         .then(() => request.launchPublishWorkflow(title))
