@@ -32,7 +32,7 @@ function renameFiles(title) {
       }
       util.moveFile(`${publishInputFolder}/${title}.m2t`, `${flexImportFolder}/${title}.m2t`);
     })
-    .then(() => request.updateMetadata({state: 'published'}));
+    .then(() => request.updateMetadata(title, {state: 'published'}));
 }
 
 module.exports = {
