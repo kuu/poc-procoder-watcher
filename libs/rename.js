@@ -8,7 +8,7 @@ function renameFiles(title) {
     .then(({filename, destination}) => {
       const deliveryFolderName = filename;
       for (const item of destination) {
-        const platformName = item.name;
+        let platformName = item.name;
         if (platformName.indexOf(':') !== -1) {
           platformName = platformName.replace('/:/g', '-');
         }
