@@ -10,7 +10,7 @@ function renameFiles(title) {
       for (const item of destination) {
         let platformName = item.name;
         if (platformName.indexOf(':') !== -1) {
-          platformName = platformName.replace('/:/g', '-');
+          platformName = platformName.replace(/:/g, '-');
         }
         const dirPath = `${publishOutputFolder}/${platformName}/${deliveryFolderName}/`;
         if (!util.checkPathExistance(dirPath)) {
