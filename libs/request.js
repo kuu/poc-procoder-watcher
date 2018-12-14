@@ -1,6 +1,8 @@
 const debug = require('debug')('procoder-watcher');
 
-const {makeRequest, getConfig, waitFor} = require('./util');
+const util = require('./util');
+
+const {api, path} = util.getConfig();
 
 const {
   baseUri,
@@ -8,7 +10,9 @@ const {
   metadataDefinition,
   importWorkflow,
   publishWorkflow
-} = getConfig().api;
+} = api;
+
+const {sourceCopyFolder} = path;
 
 const assetIdCache = new Map();
 
@@ -16,7 +20,7 @@ function getAssetId(title) {
   if (assetIdCache.has(title)) {
     return Promise.resolve(assetIdCache.get(title));
   }
-  return makeRequest(`${baseUri}/assets;workspaceId=${workspace};metadataDefinitionId=${metadataDefinition};searchText="${title}"`)
+  return util.makeRequest(`${baseUri}/assets;workspaceId=${workspace};metadataDefinitionId=${metadataDefinition};searchText="${title}"`)
     .then(res => {
       if (!res || !res.assets) {
         throw new Error(`No asset (${title}) found`);
@@ -30,7 +34,7 @@ function getAssetId(title) {
 function getMetadata(title) {
   return getAssetId(title)
     .then(id => {
-      return makeRequest(`${baseUri}/assets/${id}/metadata`)
+      return util.makeRequest(`${baseUri}/assets/${id}/metadata`)
         .then(({instance}) => instance);
     });
 }
@@ -38,7 +42,7 @@ function getMetadata(title) {
 function putMetadata(title, metadata) {
   return getAssetId(title)
     .then(id => {
-      return makeRequest(`${baseUri}/assets/${id}/metadata`, 'PUT', metadata)
+      return util.makeRequest(`${baseUri}/assets/${id}/metadata`, 'PUT', metadata)
         .then(({instance}) => instance);
     });
 }
@@ -56,7 +60,7 @@ function updateMetadata(title, newMetadata) {
 function launchWorkflow(definitionId, title, variables = {}) {
   return getAssetId(title)
     .then(assetId => {
-      return makeRequest(`${baseUri}/workflows`, 'POST', {
+      return util.makeRequest(`${baseUri}/workflows`, 'POST', {
         definitionId,
         workspaceId: workspace,
         assetId,
@@ -64,14 +68,14 @@ function launchWorkflow(definitionId, title, variables = {}) {
       })
         .then(async res => {
           while (!(await checkIfWorkflowCompleted(res.id))) {
-            await waitFor(1000);
+            await util.waitFor(1000);
           }
         });
     });
 }
 
 function checkIfWorkflowCompleted(instanceId) {
-  return makeRequest(`${baseUri}/workflows/${instanceId}`)
+  return util.makeRequest(`${baseUri}/workflows/${instanceId}`)
     .then(({status}) => {
       debug(`Workflow (id=${instanceId}): ${status}`);
       return status === 'Completed' || status === 'Failed';
@@ -92,11 +96,32 @@ function launchImportWorkflow(title, job) {
     });
 }
 
-function launchPublishWorkflow(title) {
-  return launchWorkflow(publishWorkflow, title, {resourceItemName: `${title}.m2t`})
-    .then(() => {
-      assetIdCache.delete(title);
+function copySourceFile(title) {
+  return getMetadata(title)
+    .then(({destination}) => {
+      for (const dest of destination) {
+        const fileName = dest['output-filename'];
+        if (!fileName.endsWith('.mxf')) {
+          continue;
+        }
+        // Windows-dependent code
+        const driveNames = ['/E/', '/F/', '/G/'];
+        for (const root of driveNames) {
+          const list = util.findFile(fileName, root);
+          if (list.length > 0) {
+            util.copyFile(list[0], sourceCopyFolder);
+            return true;
+          }
+        }
+      }
+      return false;
     });
+}
+
+function launchPublishWorkflow(title) {
+  return copySourceFile(title)
+    .then(() => launchWorkflow(publishWorkflow, title, {resourceItemName: `${title}.m2t`}))
+    .then(() => assetIdCache.delete(title));
 }
 
 module.exports = {

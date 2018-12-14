@@ -50,6 +50,9 @@ const mockFs = {
   readFileSync: () => {
     return 'abcdef';
   },
+  copyFileSync: () => {
+    // NOP
+  },
   renameSync: () => {
     // NOP
   },
@@ -115,6 +118,13 @@ test('util:getFileName', t => {
 test('util:getFileBaseName', t => {
   const baseName = util.getFileBaseName('/path/to/file.ext', '/');
   t.is(baseName, 'file');
+});
+
+test('util:copyFile', t => {
+  const src = '/src/path';
+  const dest = '/dest/path';
+  util.copyFile(src, dest);
+  t.is(util.checkPathExistance(dest), true);
 });
 
 test('util:moveFile', t => {

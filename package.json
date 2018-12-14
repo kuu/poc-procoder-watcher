@@ -15,6 +15,7 @@
   "dependencies": {
     "config": "^2.0.1",
     "debug": "^4.1.0",
+    "find": "^0.2.9",
     "forever": "^0.15.3",
     "node-fetch": "^2.2.1",
     "xml-js": "^1.6.8"

@@ -27,6 +27,10 @@ function checkPath() {
   if (!util.checkPathExistance(path.publishInputFolder)) {
     throw new Error(`Invalid Publish Input Folder: ${path.publishInputFolder}`);
   }
+
+  if (!util.checkPathExistance(path.sourceCopyFolder)) {
+    throw new Error(`Invalid Source Copy Folder: ${path.sourceCopyFolder}`);
+  }
   debug('All paths are valid');
 }
 

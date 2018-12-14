@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const config = require('config');
 const fetch = require('node-fetch');
+const find = require('find');
 const debug = require('debug')('procoder-watcher');
 
 const hash = Buffer.from(`${config.auth.user}:${config.auth.pass}`).toString('base64');
@@ -57,6 +58,11 @@ function getFileBaseName(filePath, sep) {
   return fileName.slice(0, index);
 }
 
+function copyFile(src, dest) {
+  debug(`util.copyFile: ${src} => ${dest}`);
+  fs.copyFileSync(src, dest);
+}
+
 function moveFile(oldPath, newPath) {
   debug(`util.moveFile: ${oldPath} => ${newPath}`);
   fs.renameSync(oldPath, newPath);
@@ -65,6 +71,10 @@ function moveFile(oldPath, newPath) {
 function deleteFile(path) {
   debug(`util.deleteFile: ${path}`);
   fs.unlinkSync(path);
+}
+
+function findFile(file, dir) {
+  return find.fileSync(file, dir);
 }
 
 function getConfig() {
@@ -106,7 +116,9 @@ module.exports = {
   getFileTimestamp,
   getFileName,
   getFileBaseName,
+  copyFile,
   moveFile,
+  findFile,
   deleteFile,
   getConfig,
   SEP: path.sep,
