@@ -29,8 +29,8 @@ function renameFiles(title) {
         } else {
           util.copyFile(`${publishInputFolder}/${title}.m2t`, dest);
         }
-        util.moveFile(`${publishInputFolder}/${title}.m2t`, `${flexImportFolder}/${title}.m2t`);
       }
+      util.moveFile(`${publishInputFolder}/${title}.m2t`, `${flexImportFolder}/${title}.m2t`);
     })
     .then(() => request.updateMetadata({state: 'published'}));
 }
