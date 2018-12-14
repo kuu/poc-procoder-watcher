@@ -43,7 +43,7 @@ function checkFiles() {
 }
 
 const procoderInputFilesToDelete = {};
-const pendingFiles = [];
+let pendingFiles = [];
 
 function checkEdiusOutput() {
   const fileList = util.getFileList(path.ediusOutputFolder, 'avi');
@@ -96,7 +96,7 @@ function deletePendingFiles() {
       unableToDelete.push(path);
     }
   }
-  pendingFiles = unableToDelete;ß
+  pendingFiles = unableToDelete;
 }
 
 function checkProcoderLogs() {
