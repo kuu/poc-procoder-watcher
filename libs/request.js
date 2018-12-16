@@ -2,17 +2,14 @@ const debug = require('debug')('procoder-watcher');
 
 const util = require('./util');
 
-const {api, path} = util.getConfig();
+const {api} = util.getConfig();
 
 const {
   baseUri,
   workspace,
   metadataDefinition,
-  importWorkflow,
-  publishWorkflow
+  importWorkflow
 } = api;
-
-const {sourceCopyFolder} = path;
 
 const assetIdCache = new Map();
 
@@ -96,37 +93,13 @@ function launchImportWorkflow(title, job) {
     });
 }
 
-function copySourceFile(title) {
-  return getMetadata(title)
-    .then(({destination}) => {
-      for (const dest of destination) {
-        const fileName = dest['output-filename'];
-        if (!fileName.endsWith('.mxf')) {
-          continue;
-        }
-        // Windows-dependent code
-        const driveNames = ['/E/', '/F/', '/G/'];
-        for (const root of driveNames) {
-          const list = util.findFile(fileName, root);
-          if (list.length > 0) {
-            util.copyFile(list[0], sourceCopyFolder);
-            return true;
-          }
-        }
-      }
-      return false;
-    });
-}
-
-function launchPublishWorkflow(title) {
-  return copySourceFile(title)
-    .then(() => launchWorkflow(publishWorkflow, title, {resourceItemName: `${title}.m2t`}))
-    .then(() => assetIdCache.delete(title));
+function removeAssetIdCache(title) {
+  assetIdCache.delete(title);
 }
 
 module.exports = {
   getMetadata,
   updateMetadata,
   launchImportWorkflow,
-  launchPublishWorkflow
+  removeAssetIdCache
 };

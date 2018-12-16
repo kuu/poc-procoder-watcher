@@ -25,7 +25,10 @@ function renameFiles(title) {
         const dest = `${dirPath}/${outputFilename}`;
         if (outputFilename.endsWith('.mxf')) {
           // Move MXF files
-          util.moveFile(`${sourceCopyFolder}/${outputFilename}`, dest);
+          const src = `${sourceCopyFolder}/${outputFilename}`;
+          if (util.checkPathExistance(src)) {
+            util.moveFile(src, dest);
+          }
         } else {
           util.copyFile(`${publishInputFolder}/${title}.m2t`, dest);
         }

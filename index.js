@@ -132,7 +132,27 @@ function checkProcoderLogs() {
   return Promise.all(promises);
 }
 
-let publishPendingList = [];
+function copySourceFile(title) {
+  return request.getMetadata(title)
+    .then(({destination}) => {
+      for (const dest of destination) {
+        const fileName = dest['output-filename'];
+        if (!fileName.endsWith('.mxf')) {
+          continue;
+        }
+        // Windows-dependent code
+        const driveNames = ['/E/', '/F/', '/G/'];
+        for (const root of driveNames) {
+          const list = util.findFile(fileName, root);
+          if (list.length > 0) {
+            util.copyFile(list[0], path.sourceCopyFolder);
+            return true;
+          }
+        }
+      }
+      return false;
+    });
+}
 
 async function checkPublishInput() {
   const fileList = util.getFileList(path.publishInputFolder, 'm2t');
@@ -140,24 +160,18 @@ async function checkPublishInput() {
     return Promise.resolve([]);
   }
   const promises = [];
-  const newPendingList = [];
   for (const file of fileList) {
     const title = util.getFileBaseName(file, util.SEP);
     if (!title) {
       continue;
     }
-    newPendingList.push(title);
-    if (publishPendingList[title]) {
-      continue;
-    }
-    debug(`Launcing the publish-workflow: ${title}`);
-    await util.waitFor(500);
+    debug(`Rename: ${title}`);
     promises.push(
-      renameFiles(title)
-        .then(() => request.launchPublishWorkflow(title))
+      copySourceFile(title)
+        .then(() => renameFiles(title))
+        .then(() => request.removeAssetIdCache(title))
     );
   }
-  publishPendingList = newPendingList;
   return Promise.all(promises);
 }
 
