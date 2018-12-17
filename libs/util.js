@@ -75,7 +75,7 @@ function deleteFile(path) {
 
 function findFile(file, dir) {
   if (!fs.existsSync(dir)) {
-    debug(`util.findFile: No such the dir - ${dir}`);
+    debug(`util.findFile: No such dir - ${dir}`);
     return [];
   }
   return find.fileSync(file, dir);

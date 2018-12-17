@@ -1,3 +1,5 @@
+const debug = require('debug')('procoder-watcher');
+
 const util = require('./util');
 const request = require('./request');
 
@@ -8,14 +10,16 @@ const {
 } = util.getConfig().path;
 
 function copySourceFile(fileName, dest) {
-  // Windows-dependent code
+  // TODO: Windows dependent code
   const driveNames = ['E:\\', 'F:\\', 'G:\\'];
   for (const root of driveNames) {
-    const list = util.findFile(fileName, root);
-    if (list.length > 0) {
-      util.copyFile(list[0], dest);
-      return true;
+    const src = `${root}\\${fileName}`;
+    if (!util.checkPathExistance(src)) {
+      debug(`No such path - ${src}`);
+      continue;
     }
+    util.copyFile(src, dest);
+    return true;
   }
   return false;
 }

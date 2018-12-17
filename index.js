@@ -143,7 +143,7 @@ async function checkPublishInput() {
     debug(`Rename: ${title}`);
     promises.push(
       renameFiles(title)
-        .then(() => request.lanunchImportWorkflow(title))
+        .then(() => request.launchImportWorkflow(title))
     );
   }
   return Promise.all(promises);
