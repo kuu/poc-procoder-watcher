@@ -28,8 +28,8 @@ $ vi config/default.json
     "baseUri": "Flex base path e.g. https://xxx.com/api",
     "workspace": {Workspace id in integer},
     "metadataDefinition": {Metadata Definition id in integer},
-    "importWorkflow": {Import workflow id in integer},
-    "publishWorkflow": {Publish workflow id in integer}
+    "notifyWorkflow": {Import workflow id in integer},
+    "importWorkflow": {Publish workflow id in integer}
   }
 }
 ```

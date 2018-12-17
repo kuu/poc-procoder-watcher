@@ -8,6 +8,7 @@ const {
   baseUri,
   workspace,
   metadataDefinition,
+  notifyWorkflow,
   importWorkflow
 } = api;
 
@@ -79,18 +80,21 @@ function checkIfWorkflowCompleted(instanceId) {
     });
 }
 
-function launchImportWorkflow(title, job) {
+function launchNotifyWorkflow(title, job) {
   const state = job.status === 'completed' ? 'transcoded' : 'transcoding-failed';
   const variables = {state};
   if (state === 'transcoded') {
-    variables.resourceItemName = util.getFileName(job.destination);
     variables.reviewFilePath = job.destination;
   }
-  return launchWorkflow(importWorkflow, title, variables)
-    .then(() => {
-      if (state === 'transcoding-failed') {
-        assetIdCache.delete(title);
-      }
+  return launchWorkflow(notifyWorkflow, title, variables);
+}
+
+function launchImportWorkflow(title) {
+  return getMetadata(title)
+    .then(({resolution}) => {
+      const ext = resolution === 'HD' ? 'm2t' : 'mpg';
+      return launchWorkflow(importWorkflow, title, {resourceItemName: `${title}.${ext}`})
+        .then(() => assetIdCache.delete(title));
     });
 }
 
@@ -101,6 +105,7 @@ function removeAssetIdCache(title) {
 module.exports = {
   getMetadata,
   updateMetadata,
+  launchNotifyWorkflow,
   launchImportWorkflow,
   removeAssetIdCache
 };

@@ -112,7 +112,7 @@ function checkProcoderLogs() {
       }
       debug(`Job ${job.status}: ${title}`);
       promises.push(
-        request.launchImportWorkflow(title, job)
+        request.launchNotifyWorkflow(title, job)
       );
     } else {
       debug(`Job updated: ${title}  progress=${job.progress}`);
@@ -143,7 +143,7 @@ async function checkPublishInput() {
     debug(`Rename: ${title}`);
     promises.push(
       renameFiles(title)
-        .then(() => request.removeAssetIdCache(title))
+        .then(() => request.lanunchImportWorkflow(title))
     );
   }
   return Promise.all(promises);

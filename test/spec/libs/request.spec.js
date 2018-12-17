@@ -11,8 +11,8 @@ const mockConfig = {
     baseUri: 'base-uri',
     workspace: 123,
     metadataDefinition: 345,
-    importWorkflow: 567,
-    publishWorkflow: 789
+    notifyWorkflow: 567,
+    importWorkflow: 789
   }
 };
 
