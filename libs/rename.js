@@ -24,7 +24,7 @@ function renameFiles(title) {
   return request.getMetadata(title)
     .then(({filename, destination, resolution}) => {
       const deliveryFolderName = filename;
-      const ext = resolution === 'HD' ? '.m2t' : 'mpg';
+      const ext = resolution === 'HD' ? 'm2t' : 'mpg';
       for (const item of destination) {
         let platformName = item.name;
         if (platformName.indexOf(':') !== -1) {
