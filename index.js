@@ -129,7 +129,8 @@ function checkProcoderLogs() {
 }
 
 async function checkPublishInput() {
-  const fileList = util.getFileList(path.publishInputFolder, 'm2t');
+  const fileList = util.getFileList(path.publishInputFolder, 'm2t')
+    .concat(util.getFileList(path.publishInputFolder, 'mpg'));
   if (fileList.length === 0) {
     return Promise.resolve([]);
   }

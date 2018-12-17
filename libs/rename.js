@@ -22,8 +22,9 @@ function copySourceFile(fileName, dest) {
 
 function renameFiles(title) {
   return request.getMetadata(title)
-    .then(({filename, destination}) => {
+    .then(({filename, destination, resolution}) => {
       const deliveryFolderName = filename;
+      const ext = resolution === 'HD' ? '.m2t' : 'mpg';
       for (const item of destination) {
         let platformName = item.name;
         if (platformName.indexOf(':') !== -1) {
@@ -38,10 +39,10 @@ function renameFiles(title) {
         if (outputFilename.endsWith('.mxf')) {
           copySourceFile(outputFilename, dest);
         } else {
-          util.copyFile(`${publishInputFolder}/${title}.m2t`, dest);
+          util.copyFile(`${publishInputFolder}/${title}.${ext}`, dest);
         }
       }
-      util.moveFile(`${publishInputFolder}/${title}.m2t`, `${flexImportFolder}/${title}.m2t`);
+      util.moveFile(`${publishInputFolder}/${title}.${ext}`, `${flexImportFolder}/${title}.${ext}`);
     })
     .then(() => request.updateMetadata(title, {state: 'published'}));
 }
