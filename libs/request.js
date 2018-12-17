@@ -83,6 +83,7 @@ function launchImportWorkflow(title, job) {
   const state = job.status === 'completed' ? 'transcoded' : 'transcoding-failed';
   const variables = {state};
   if (state === 'transcoded') {
+    variables.resourceItemName = `${title}.m2t`;
     variables.reviewFilePath = job.destination;
   }
   return launchWorkflow(importWorkflow, title, variables)

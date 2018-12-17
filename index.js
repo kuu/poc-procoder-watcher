@@ -29,10 +29,6 @@ function checkPath() {
     throw new Error(`Invalid Publish Input Folder: ${path.publishInputFolder}`);
   }
 
-  if (!util.checkPathExistance(path.sourceCopyFolder)) {
-    throw new Error(`Invalid Source Copy Folder: ${path.sourceCopyFolder}`);
-  }
-
   if (!util.checkPathExistance(path.flexImportFolder)) {
     throw new Error(`Invalid Flex Import Folder: ${path.flexImportFolder}`);
   }
@@ -132,28 +128,6 @@ function checkProcoderLogs() {
   return Promise.all(promises);
 }
 
-function copySourceFile(title) {
-  return request.getMetadata(title)
-    .then(({destination}) => {
-      for (const dest of destination) {
-        const fileName = dest['output-filename'];
-        if (!fileName.endsWith('.mxf')) {
-          continue;
-        }
-        // Windows-dependent code
-        const driveNames = ['/E/', '/F/', '/G/'];
-        for (const root of driveNames) {
-          const list = util.findFile(fileName, root);
-          if (list.length > 0) {
-            util.copyFile(list[0], path.sourceCopyFolder);
-            return true;
-          }
-        }
-      }
-      return false;
-    });
-}
-
 async function checkPublishInput() {
   const fileList = util.getFileList(path.publishInputFolder, 'm2t');
   if (fileList.length === 0) {
@@ -167,8 +141,7 @@ async function checkPublishInput() {
     }
     debug(`Rename: ${title}`);
     promises.push(
-      copySourceFile(title)
-        .then(() => renameFiles(title))
+      renameFiles(title)
         .then(() => request.removeAssetIdCache(title))
     );
   }

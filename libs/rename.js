@@ -2,11 +2,23 @@ const util = require('./util');
 const request = require('./request');
 
 const {
-  sourceCopyFolder,
   publishInputFolder,
   publishOutputFolder,
   flexImportFolder
 } = util.getConfig().path;
+
+function copySourceFile(fileName, dest) {
+  // Windows-dependent code
+  const driveNames = ['/E/', '/F/', '/G/'];
+  for (const root of driveNames) {
+    const list = util.findFile(fileName, root);
+    if (list.length > 0) {
+      util.copyFile(list[0], dest);
+      return true;
+    }
+  }
+  return false;
+}
 
 function renameFiles(title) {
   return request.getMetadata(title)
@@ -24,11 +36,7 @@ function renameFiles(title) {
         const outputFilename = item['output-filename'];
         const dest = `${dirPath}/${outputFilename}`;
         if (outputFilename.endsWith('.mxf')) {
-          // Move MXF files
-          const src = `${sourceCopyFolder}/${outputFilename}`;
-          if (util.checkPathExistance(src)) {
-            util.moveFile(src, dest);
-          }
+          copySourceFile(outputFilename, dest);
         } else {
           util.copyFile(`${publishInputFolder}/${title}.m2t`, dest);
         }
