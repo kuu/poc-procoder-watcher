@@ -39,11 +39,10 @@ function renameFiles(title) {
           util.mkdir(dirPath);
         }
         const outputFilename = item['output-filename'];
-        const dest = `${dirPath}/${outputFilename}`;
         if (outputFilename.endsWith('.mxf')) {
-          copySourceFile(outputFilename, dest);
+          copySourceFile(outputFilename, `${dirPath}/${outputFilename}`);
         } else {
-          util.copyFile(`${publishInputFolder}/${title}.${ext}`, dest);
+          util.copyFile(`${publishInputFolder}/${title}.${ext}`, `${dirPath}/${title}.${ext}`);
         }
       }
       util.moveFile(`${publishInputFolder}/${title}.${ext}`, `${flexImportFolder}/${title}.${ext}`);
