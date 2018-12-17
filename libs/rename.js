@@ -9,7 +9,7 @@ const {
 
 function copySourceFile(fileName, dest) {
   // Windows-dependent code
-  const driveNames = ['/E/', '/F/', '/G/'];
+  const driveNames = ['E:\\', 'F:\\', 'G:\\'];
   for (const root of driveNames) {
     const list = util.findFile(fileName, root);
     if (list.length > 0) {
