@@ -168,29 +168,29 @@ function checkExpired() {
     });
 }
 
-function tickSecond() {
+function tickSeconds() {
   return checkFiles()
     .then(() => {
-      setTimeout(tickSecond, TIMEOUT_TICK_SECONDS);
+      setTimeout(tickSeconds, TIMEOUT_TICK_SECONDS);
     })
     .catch(err => {
       console.error(err.stack);
-      setTimeout(tickSecond, TIMEOUT_TICK_SECONDS);
+      setTimeout(tickSeconds, TIMEOUT_TICK_SECONDS);
     });
 }
 
-function tickHour() {
+function tickHours() {
   return checkExpired()
     .then(() => {
-      setTimeout(tickHour, TIMEOUT_TICK_HOURS);
+      setTimeout(tickHours, TIMEOUT_TICK_HOURS);
     })
     .catch(err => {
       console.error(err.stack);
-      setTimeout(tickHour, TIMEOUT_TICK_HOURS);
+      setTimeout(tickHours, TIMEOUT_TICK_HOURS);
     });
 }
 
 checkPath();
 
-setTimeout(tickSecond, 0);
-setTimeout(tickHour, 0);
+setTimeout(tickSeconds, 0);
+setTimeout(tickHours, 0);
