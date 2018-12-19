@@ -19,9 +19,11 @@ function deleteFiles(title) {
           continue;
         }
         util.deleteFile(path);
+        /*
         if (util.isEmptyDir(dirPath)) {
           util.deleteFile(dirPath);
         }
+        */
       }
       request.launchPurgeWorkflow(title);
     });
