@@ -4,9 +4,11 @@ const {iterate} = require('./libs/log');
 const request = require('./libs/request');
 const util = require('./libs/util');
 const {renameFiles} = require('./libs/rename');
+const {deleteFiles} = require('./libs/delete');
 
 const {path} = util.getConfig();
-const TIMEOUT = 1000;
+const TIMEOUT_TICK_SECONDS = 1000;
+const TIMEOUT_TICK_HOURS = 3600000;
 
 function checkPath() {
   if (!util.checkPathExistance(path.ediusOutputFolder)) {
@@ -112,7 +114,7 @@ function checkProcoderLogs() {
       }
       debug(`Job ${job.status}: ${title}`);
       promises.push(
-        request.launchNotifyWorkflow(title, job)
+        request.launchNotificationWorkflow(title, job)
       );
     } else {
       debug(`Job updated: ${title}  progress=${job.progress}`);
@@ -149,17 +151,46 @@ async function checkPublishInput() {
   return Promise.all(promises);
 }
 
-function callback() {
+function checkExpired() {
+  return request.getAssets('published')
+    .then(async assets => {
+      for (const asset of assets) {
+        const onAirDate = new Date(asset['on-air-date']);
+        if (Number.isNaN(onAirDate.getTime())) {
+          continue;
+        }
+        const currentDate = new Date();
+        const THIRTY_DAYS = 2592000000;
+        if (currentDate.getTime() - onAirDate.getTime() > THIRTY_DAYS) {
+          await deleteFiles(asset.title);
+        }
+      }
+    });
+}
+
+function tickSecond() {
   return checkFiles()
     .then(() => {
-      setTimeout(callback, TIMEOUT);
+      setTimeout(tickSecond, TIMEOUT_TICK_SECONDS);
     })
     .catch(err => {
       console.error(err.stack);
-      setTimeout(callback, TIMEOUT);
+      setTimeout(tickSecond, TIMEOUT_TICK_SECONDS);
+    });
+}
+
+function tickHour() {
+  return checkExpired()
+    .then(() => {
+      setTimeout(tickHour, TIMEOUT_TICK_HOURS);
+    })
+    .catch(err => {
+      console.error(err.stack);
+      setTimeout(tickHour, TIMEOUT_TICK_HOURS);
     });
 }
 
 checkPath();
 
-setTimeout(callback, 0);
+setTimeout(tickSecond, 0);
+setTimeout(tickHour, 0);

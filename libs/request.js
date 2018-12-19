@@ -8,11 +8,22 @@ const {
   baseUri,
   workspace,
   metadataDefinition,
-  notifyWorkflow,
-  importWorkflow
+  notificationWorkflow,
+  importWorkflow,
+  purgeWorkflow
 } = api;
 
 const assetIdCache = new Map();
+
+function getAssets(state) {
+  return util.makeRequest(`${baseUri}/assets;workspaceId=${workspace};metadataDefinitionId=${metadataDefinition};searchText="${state}";includeMetadata=true`)
+    .then(res => {
+      if (!res || !res.assets) {
+        throw new Error(`No asset (state = ${state}) found`);
+      }
+      return res.assets.filter(({metadata}) => metadata.instance.state === state).map(({metadata}) => metadata.instance);
+    });
+}
 
 function getAssetId(title) {
   if (assetIdCache.has(title)) {
@@ -21,7 +32,7 @@ function getAssetId(title) {
   return util.makeRequest(`${baseUri}/assets;workspaceId=${workspace};metadataDefinitionId=${metadataDefinition};searchText="${title}"`)
     .then(res => {
       if (!res || !res.assets) {
-        throw new Error(`No asset (${title}) found`);
+        throw new Error(`No asset (title = ${title}) found`);
       }
       const {id} = res.assets.find(asset => asset.name === title);
       assetIdCache.set(title, id);
@@ -80,32 +91,33 @@ function checkIfWorkflowCompleted(instanceId) {
     });
 }
 
-function launchNotifyWorkflow(title, job) {
+function launchNotificationWorkflow(title, job) {
   const state = job.status === 'completed' ? 'transcoded' : 'transcoding-failed';
   const variables = {state};
   if (state === 'transcoded') {
     variables.reviewFilePath = job.destination;
   }
-  return launchWorkflow(notifyWorkflow, title, variables);
+  return launchWorkflow(notificationWorkflow, title, variables);
 }
 
 function launchImportWorkflow(title) {
   return getMetadata(title)
     .then(({resolution}) => {
       const ext = resolution === 'HD' ? 'm2t' : 'mpg';
-      return launchWorkflow(importWorkflow, title, {resourceItemName: `${title}.${ext}`})
-        .then(() => assetIdCache.delete(title));
+      return launchWorkflow(importWorkflow, title, {resourceItemName: `${title}.${ext}`});
     });
 }
 
-function removeAssetIdCache(title) {
-  assetIdCache.delete(title);
+function launchPurgeWorkflow(title) {
+  return launchWorkflow(purgeWorkflow, title)
+    .then(() => assetIdCache.delete(title));
 }
 
 module.exports = {
+  getAssets,
   getMetadata,
   updateMetadata,
-  launchNotifyWorkflow,
+  launchNotificationWorkflow,
   launchImportWorkflow,
-  removeAssetIdCache
+  launchPurgeWorkflow
 };

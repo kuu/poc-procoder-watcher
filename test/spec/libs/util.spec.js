@@ -17,8 +17,9 @@ const mockConfig = {
     baseUri: 'base-uri',
     workspace: 123,
     medatadaDefinition: 345,
-    notifyWorkflow: 567,
-    importWorkflow: 789
+    notificationWorkflow: 567,
+    importWorkflow: 789,
+    purgeWorkflow: 999
   }
 };
 

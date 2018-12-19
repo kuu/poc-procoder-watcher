@@ -11,7 +11,7 @@ const {
 
 function copySourceFile(fileName, dest) {
   // TODO: Windows dependent code
-  const driveNames = ['E:\\', 'F:\\', 'G:\\'];
+  const driveNames = ['E:', 'F:', 'G:'];
   for (const root of driveNames) {
     const src = `${root}\\${fileName}`;
     if (!util.checkPathExistance(src)) {
@@ -34,14 +34,14 @@ function renameFiles(title) {
         if (platformName.indexOf(':') !== -1) {
           platformName = platformName.replace(/:/g, '-');
         }
-        const dirPath = `${publishOutputFolder}/${platformName}/${deliveryFolderName}/`;
+        const dirPath = `${publishOutputFolder}/${platformName}/${deliveryFolderName}`;
         if (!util.checkPathExistance(dirPath)) {
           util.mkdir(dirPath);
         }
         const outputFilename = item['output-filename'];
         const dest = `${dirPath}/${outputFilename}`;
         if (outputFilename.endsWith('.mxf')) {
-          copySourceFile(outputFilename, dest);
+          copySourceFile(`${title}.mxf`, dest);
         } else {
           util.copyFile(`${publishInputFolder}/${title}.${ext}`, dest);
         }

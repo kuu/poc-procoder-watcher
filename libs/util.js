@@ -2,9 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const config = require('config');
 const fetch = require('node-fetch');
-const find = require('find');
 const debug = require('debug')('procoder-watcher');
-
 const hash = Buffer.from(`${config.auth.user}:${config.auth.pass}`).toString('base64');
 
 function checkPathExistance(path) {
@@ -73,14 +71,6 @@ function deleteFile(path) {
   fs.unlinkSync(path);
 }
 
-function findFile(file, dir) {
-  if (!fs.existsSync(dir)) {
-    debug(`util.findFile: No such dir - ${dir}`);
-    return [];
-  }
-  return find.fileSync(file, dir);
-}
-
 function mkdir(path) {
   fs.mkdirSync(path, {recursive: true});
 }
@@ -126,7 +116,6 @@ module.exports = {
   getFileBaseName,
   copyFile,
   moveFile,
-  findFile,
   mkdir,
   deleteFile,
   getConfig,
