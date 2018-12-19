@@ -28,6 +28,16 @@ function getFileList(dir, extension) {
   });
 }
 
+function isEmptyDir(dir) {
+  return fs.readdirSync(dir).filter(file => {
+    if (file.startsWith('.')) {
+      // Ignore dot files
+      return false;
+    }
+    return true;
+  }).length === 0;
+}
+
 function getFileData(filePath) {
   return fs.readFileSync(filePath, 'utf8');
 }
@@ -110,6 +120,7 @@ function waitFor(milliseconds) {
 module.exports = {
   checkPathExistance,
   getFileList,
+  isEmptyDir,
   getFileData,
   getFileTimestamp,
   getFileName,

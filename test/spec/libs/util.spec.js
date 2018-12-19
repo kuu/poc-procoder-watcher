@@ -34,7 +34,10 @@ const mockFs = {
     }
     return true;
   },
-  readdirSync: () => {
+  readdirSync: dir => {
+    if (dir === '/empty/dir') {
+      return ['.dotfile'];
+    }
     return ['myFile', 'myDir', 'myFile.abc', '.myFile.abc'];
   },
   statSync: path => {
@@ -99,6 +102,11 @@ test('util:getFileList', t => {
   list = util.getFileList('/path/to', '.abc');
   t.is(list.length, 1);
   t.is(list[0], 'myFile.abc');
+});
+
+test('util:isEmptyDir', t => {
+  t.is(util.isEmptyDir('/empty/dir'), true);
+  t.is(util.isEmptyDir('/not/empty/dir'), false);
 });
 
 test('util:getFileData', t => {

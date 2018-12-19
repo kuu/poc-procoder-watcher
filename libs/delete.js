@@ -13,11 +13,15 @@ function deleteFiles(title) {
         if (platformName.indexOf(':') !== -1) {
           platformName = platformName.replace(/:/g, '-');
         }
-        const path = `${publishOutputFolder}/${platformName}/${filename}/${item['output-filename']}`;
+        const dirPath = `${publishOutputFolder}/${platformName}/${filename}`;
+        const path = `${dirPath}/${item['output-filename']}`;
         if (!util.checkPathExistance(path)) {
           continue;
         }
         util.deleteFile(path);
+        if (util.isEmptyDir(dirPath)) {
+          util.deleteFile(dirPath);
+        }
       }
       request.launchPurgeWorkflow(title);
     });
