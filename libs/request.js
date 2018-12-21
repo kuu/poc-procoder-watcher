@@ -29,7 +29,7 @@ function getAssetId(title) {
   if (assetIdCache.has(title)) {
     return Promise.resolve(assetIdCache.get(title));
   }
-  return util.makeRequest(`${baseUri}/assets;workspaceId=${workspace};metadataDefinitionId=${metadataDefinition};searchText="${title}"`)
+  return util.makeRequest(`${baseUri}/assets;workspaceId=${workspace};metadataDefinitionId=${metadataDefinition};searchText="${encodeURIComponent(title)}"`)
     .then(res => {
       if (!res || !res.assets) {
         throw new Error(`No asset (title = ${title}) found`);

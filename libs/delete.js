@@ -25,7 +25,7 @@ function deleteFiles(title) {
         }
         */
       }
-      request.launchPurgeWorkflow(title);
+      return request.launchPurgeWorkflow(title);
     });
 }
 
