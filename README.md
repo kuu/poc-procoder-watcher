@@ -16,7 +16,8 @@ $ vi config/default.json
 {
   "path": {
     "ediusOutputFolder": "Path to Edius output folder",
-    "procoderInputFolder": "Path to ProCoder input folder",
+    "procoderInputFolderHD": "Path to ProCoder HD input folder",
+    "procoderInputFolderSD": "Path to ProCoder SD input folder",
     "procoderLogsFolder": "Path to Procoder log output folder",
     "publishInputFolder": "Path to Publish input folder"
   },
