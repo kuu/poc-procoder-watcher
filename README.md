@@ -20,7 +20,7 @@ $ vi config/default.json
     "procoderInputFolderSD": "Path to ProCoder SD input folder",
     "procoderLogsFolder": "Path to Procoder log output folder",
     "publishInputFolder": "Path to Publish input folder",
-    "publishInputFolder": "Path to be watched by Flex"
+    "flexImportFolder": "Path to be watched by Flex"
   },
   "auth": {
     "user": "Flex user",
